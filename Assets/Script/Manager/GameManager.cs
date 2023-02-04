@@ -34,7 +34,8 @@ public class GameManager : MonoBehaviour
 
     public bool IsGameStarted = false;
     public bool IsGameOver = false;
-   
+    public bool IsGamePaused = false;
+    public bool IsPlayerInControl = false;
     public void StartGame()
     {
         IsGameStarted = true;

@@ -6,6 +6,7 @@ public class RootSpawn : MonoBehaviour
 {
     public RootBehavior RootToSpawn;
     public float RootSpawnTimeFrequencySecond = 5.0f;
+    public float RootSpawnTimeVariationSecond = 1.0f;
     public BoxCollider2D BoxCollider2D;
     public float SpawnPointVariation = 0.50f;
     public int MaximumRootAround = 5;
@@ -16,15 +17,15 @@ public class RootSpawn : MonoBehaviour
     public void Start()
     {
         _sacredTree = FindObjectOfType<SacredTree>();
+        SpriteSpawnTime();
     }
 
     public void Update()
     {
         if (GameManager.Instance.IsGameStarted == true && GameManager.Instance.IsGamePaused != true && GameManager.Instance.IsGameOver != true)
         {
-
-            _currentTimer += Time.deltaTime;
-            if (_currentTimer >= RootSpawnTimeFrequencySecond)
+            _currentTimer -= Time.deltaTime;
+            if (_currentTimer <= 0)
             {
                 List<Collider2D> col = new List<Collider2D>();
                 ContactFilter2D fil = new ContactFilter2D();
@@ -33,9 +34,14 @@ public class RootSpawn : MonoBehaviour
                 {
                     SpawnRoot();
                 }
-                _currentTimer = 0;
+                SpriteSpawnTime();
             }
         }
+    }
+
+    public void SpriteSpawnTime()
+    {
+        _currentTimer = RootSpawnTimeFrequencySecond + Random.Range(-RootSpawnTimeVariationSecond, RootSpawnTimeVariationSecond);
     }
 
     public void SpawnRoot()

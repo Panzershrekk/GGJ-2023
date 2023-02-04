@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public Animator Animator;
     public Rigidbody2D Rb;
+    public SpriteRenderer SpriteRenderer;
     public float PlayerMoveSpeed = 5.0f;
     private Vector2 _movement;
     private Vector2 _mousePosition;
@@ -44,11 +45,12 @@ public class PlayerController : MonoBehaviour
     {
         if (_movement.x > 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            SpriteRenderer.flipX = false;
+            //transform.localScale = new Vector3(-1, 1, 1);
         }
         else if (_movement.x < 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            SpriteRenderer.flipX = true;
         }
     }
 }

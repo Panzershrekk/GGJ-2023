@@ -10,7 +10,8 @@ public class RootBehavior : MonoBehaviour
         Medium = 1,
         Big = 2,
     }
-
+    public Animator Animator;
+    public float EvolutionTime = 4f;
     public RootSpecific SmallRoot;
     public RootSpecific MediumRoot;
     public RootSpecific BigRoot;
@@ -18,9 +19,31 @@ public class RootBehavior : MonoBehaviour
     public RootSpawn RootSpawnScript;
     private RootState _currentState;
     private int _currentLife = 0;
+    private float _evolutionTimer = 0f;
+    private bool _evolving = false;
+    private bool _isDead = false;
     public void Start()
     {
         SetupSpawn();
+    }
+
+    public void Update()
+    {
+        if (_currentState != RootState.Big && _isDead == false)
+        {
+            //Bad mojo mon
+            if (_evolving == false && _evolutionTimer >= EvolutionTime - 0.5f)
+            {
+                Animator.SetTrigger("Evolve");
+                _evolving = true;
+            }
+            if (_evolutionTimer >= EvolutionTime)
+            {
+                _evolutionTimer = 0;
+                Evolve();
+            }
+            _evolutionTimer += Time.deltaTime;
+        }
     }
 
     public void SetupSpawn()
@@ -32,6 +55,7 @@ public class RootBehavior : MonoBehaviour
 
     public void Evolve()
     {
+        _evolving = false;
         if (_currentState == RootState.Small)
         {
             _currentState = RootState.Medium;
@@ -43,18 +67,29 @@ public class RootBehavior : MonoBehaviour
         {
             _currentState = RootState.Big;
             _currentLife += BigRoot.LifeGranted;
-           SpriteRenderer.sprite = BigRoot.SpriteChange;
+            SpriteRenderer.sprite = BigRoot.SpriteChange;
             //Play anim
         }
     }
 
     public void TakeDamage(int amount)
     {
-        _currentLife -= amount;
-        if (_currentLife < 0)
+        if (_isDead == false)
         {
-            //PLAY DEATH ANIM
-            Destroy(this.gameObject);
+            _currentLife -= amount;
+            if (_currentLife < 0)
+            {
+                //PLAY DEATH ANIM
+                RootSpawnScript.enabled = false;
+                _isDead = true;
+                GameManager.Instance.AddScore(1);
+                Animator.Play("Die");
+                Destroy(this.gameObject, 1);
+            }
+            else
+            {
+                Animator.Play("Hit");
+            }
         }
     }
 }

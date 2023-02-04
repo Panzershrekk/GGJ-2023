@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 589274802237127024}
   - component: {fileID: 7728969080339128622}
-  - component: {fileID: 8560051100607395434}
   - component: {fileID: 8689772834813353347}
   - component: {fileID: 5835878081887292792}
   - component: {fileID: 8854918787459958747}
+  - component: {fileID: 5851122614941901200}
   m_Layer: 0
   m_Name: PlayerSlashPowerUp
   m_TagString: Untagged
@@ -88,19 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8560051100607395434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1765876212013765496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7c4196b12307a242b99c1be3a338273, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damage: 1
 --- !u!50 &8689772834813353347
 Rigidbody2D:
   serializedVersion: 4
@@ -161,3 +148,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  RotationSpeed: 400
+--- !u!114 &5851122614941901200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765876212013765496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55f15b91afd33b749aac317817d99497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 1

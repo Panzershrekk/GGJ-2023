@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7490142507015511543}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.74, y: -1.12, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,7 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RootToSpawn: {fileID: 7139967020363701624, guid: a9e2dc5f6d0181d459c4bee5506e740c, type: 3}
-  RootSpawnTimeFrequencySecond: 1
+  RootSpawnTimeFrequencySecond: 3
+  RootSpawnTimeVariationSecond: 1
   BoxCollider2D: {fileID: 5102616628660173159}
   SpawnPointVariation: 0.8
   MaximumRootAround: 4

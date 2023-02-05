@@ -8,10 +8,12 @@ public class PlayerSlash : MonoBehaviour
     private GameObject _belongTo;
     public float TimeToLive = 0.1f;
     private List<RootBehavior> _hitList = new List<RootBehavior>();
+    private PlayerBehavior _playerBehavior;
 
-    public void Setup(GameObject belongTo)
+    public void Setup(GameObject belongTo, PlayerBehavior player)
     {
         _belongTo = belongTo;
+        _playerBehavior = player;
         Destroy(this.gameObject, TimeToLive);
     }
 
@@ -35,6 +37,7 @@ public class PlayerSlash : MonoBehaviour
             {
                 _hitList.Add(rootBehavior);
                 rootBehavior.TakeDamage(Damage);
+                _playerBehavior.AddSpecialReward();
             }
         }
     }

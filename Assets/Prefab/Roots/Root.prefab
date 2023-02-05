@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5736737732501803962}
   - component: {fileID: 4778446991784600265}
   - component: {fileID: 3423055335646967920}
+  - component: {fileID: 4939029042720659612}
   m_Layer: 8
   m_Name: Root
   m_TagString: Untagged
@@ -77,8 +78,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: eb041353279fd6449b0f06fe3090d1f7, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: aebc6140ae94df54488cc9c24d93fd9f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,16 +102,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de818043ddf5b7642a1d041d9ec588c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeBeforeDamage: 0.5
   Animator: {fileID: 3423055335646967920}
   EvolutionTime: 4
   SmallRoot:
-    LifeGranted: 1
+    LifeGranted: 2
     SpriteChange: {fileID: 21300000, guid: eb041353279fd6449b0f06fe3090d1f7, type: 3}
   MediumRoot:
-    LifeGranted: 1
+    LifeGranted: 2
     SpriteChange: {fileID: 21300000, guid: 77bdd1f7f6b80ec44b03dd1a06fbc758, type: 3}
   BigRoot:
-    LifeGranted: 1
+    LifeGranted: 2
     SpriteChange: {fileID: 21300000, guid: aebc6140ae94df54488cc9c24d93fd9f, type: 3}
   SpriteRenderer: {fileID: 7139967020363701625}
   RootSpawnScript: {fileID: 4007573281095993119}
@@ -127,12 +129,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RootToSpawn: {fileID: 7139967020363701624}
-  RootSpawnTimeFrequencySecond: 3
-  RootSpawnTimeVariationSecond: 1
+  RootSpawnTimeFrequencySecond: 5
+  RootSpawnTimeVariationSecond: 1.3
   BoxCollider2D: {fileID: 5736737732501803962}
-  SpawnPointVariation: 0.8
-  MaximumRootAround: 4
-  CheckSpawnRectangleToleranceMultiplicative: 0.1
+  SpawnPointVariation: 0.7
+  MaximumRootAround: 8
+  CheckSpawnRectangleToleranceMultiplicative: 0.15
 --- !u!61 &5736737732501803962
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -143,10 +145,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2.07}
+  m_Offset: {x: 0.015593648, y: 1.3958753}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -157,7 +159,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.37, y: 4.14}
+  m_Size: {x: 2.0913198, y: 2.7437646}
   m_EdgeRadius: 0
 --- !u!50 &4778446991784600265
 Rigidbody2D:
@@ -200,3 +202,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4939029042720659612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7139967020363701623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dde5e8e5265ca04b8558d84bdd8a965, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpriteRenderer: {fileID: 7139967020363701625}
+  BaseLayer: 3

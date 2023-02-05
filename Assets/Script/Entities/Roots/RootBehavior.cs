@@ -10,6 +10,8 @@ public class RootBehavior : MonoBehaviour
         Medium = 1,
         Big = 2,
     }
+    public float TimeBeforeDamage = 0.5f;
+    public bool CanDoDamage {get; private set;} = false;
     public Animator Animator;
     public float EvolutionTime = 4f;
     public RootSpecific SmallRoot;
@@ -22,9 +24,11 @@ public class RootBehavior : MonoBehaviour
     private float _evolutionTimer = 0f;
     private bool _evolving = false;
     private bool _isDead = false;
+    private float _timeBeforeDamage;
     public void Start()
     {
         SetupSpawn();
+        CanDoDamage = false;
     }
 
     public void Update()
@@ -32,17 +36,25 @@ public class RootBehavior : MonoBehaviour
         if (_currentState != RootState.Big && _isDead == false)
         {
             //Bad mojo mon
-            if (_evolving == false && _evolutionTimer >= EvolutionTime - 0.5f)
+            if (_evolving == false && _evolutionTimer >= (EvolutionTime / GameManager.Instance.GetCurrentScaling()) - 0.5f)
             {
                 Animator.SetTrigger("Evolve");
                 _evolving = true;
             }
-            if (_evolutionTimer >= EvolutionTime)
+            if (_evolutionTimer >= (EvolutionTime / GameManager.Instance.GetCurrentScaling()))
             {
                 _evolutionTimer = 0;
                 Evolve();
             }
             _evolutionTimer += Time.deltaTime;
+        }
+        if (CanDoDamage == false)
+        {
+            _timeBeforeDamage += Time.deltaTime;
+            if (_timeBeforeDamage >= TimeBeforeDamage)
+            {
+                CanDoDamage = true;
+            }
         }
     }
 
@@ -79,7 +91,6 @@ public class RootBehavior : MonoBehaviour
             _currentLife -= amount;
             if (_currentLife < 0)
             {
-                //PLAY DEATH ANIM
                 RootSpawnScript.enabled = false;
                 _isDead = true;
                 GameManager.Instance.AddScore(1);

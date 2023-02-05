@@ -8,6 +8,7 @@ public class SacredTree : MonoBehaviour
     public float LifeLostOnTouch = 3.0f;
     public float InvincibilityFrame = 0.5f;
     public float DropBonusEverySecond = 30.0f;
+    public Animator TruncAnimator;
     public SacredFruit FruitToSpawn;
     public Transform LeftLimit;
     public Transform RightLimit;
@@ -58,26 +59,33 @@ public class SacredTree : MonoBehaviour
 
     void LoseLife()
     {
-        _currentLife -= LifeLostOnTouch;
-        _isInvincible = true;
-        _currentInvincibilityFrame = InvincibilityFrame;
-        GameUIManager.Instance.UpdateTreeUI(_currentLife, MaxLife);
-        if (_currentLife <= 0)
+        if (GameManager.Instance.IsGameOver == false)
         {
-            GameManager.Instance.FinishGame();
+            _currentLife -= (LifeLostOnTouch + GameManager.Instance.DifficultyScaling);
+            _isInvincible = true;
+            _currentInvincibilityFrame = InvincibilityFrame;
+            GameUIManager.Instance.UpdateTreeUI(_currentLife, MaxLife);
+            if (_currentLife <= 0)
+            {
+                GameManager.Instance.FinishGame();
+            }
         }
     }
 
     void OnTriggerStay2D(Collider2D col)
     {
+        GameObject triggeredObject = col.gameObject;
+        RootBehavior rootBehavior = triggeredObject.GetComponent<RootBehavior>();
         if (_isInvincible == false)
         {
-            GameObject triggeredObject = col.gameObject;
-            RootBehavior rootBehavior = triggeredObject.GetComponent<RootBehavior>();
             if (rootBehavior != null)
             {
                 LoseLife();
             }
+        }
+        if (rootBehavior != null && rootBehavior.CanDoDamage == true)
+        {
+            TruncAnimator.SetTrigger("Damage");
         }
     }
 }

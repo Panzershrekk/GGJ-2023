@@ -42,13 +42,14 @@ public class RootSpawn : MonoBehaviour
     public void SpriteSpawnTime()
     {
         _currentTimer = RootSpawnTimeFrequencySecond + Random.Range(-RootSpawnTimeVariationSecond, RootSpawnTimeVariationSecond);
+        _currentTimer = _currentTimer / GameManager.Instance.GetCurrentScaling();
     }
 
     public void SpawnRoot()
     {
         Vector3 dir = (_sacredTree.transform.position - transform.position).normalized;
-        dir.x = (dir.x + Random.Range(-SpawnPointVariation, SpawnPointVariation)) * BoxCollider2D.size.x;
-        dir.y = (dir.y + Random.Range(-SpawnPointVariation, SpawnPointVariation)) * BoxCollider2D.size.y;
+        dir.x = (dir.x + Random.Range(-SpawnPointVariation, SpawnPointVariation)) * BoxCollider2D.size.x /1.3f;
+        dir.y = (dir.y + Random.Range(-SpawnPointVariation, SpawnPointVariation)) * BoxCollider2D.size.y /1.7f;
         Vector3 spawnPosition = transform.position + dir;
         Collider2D col = Physics2D.OverlapCircle(spawnPosition, BoxCollider2D.size.x * CheckSpawnRectangleToleranceMultiplicative);
         if (col != null && col.GetComponent<RootSpawn>() != null)

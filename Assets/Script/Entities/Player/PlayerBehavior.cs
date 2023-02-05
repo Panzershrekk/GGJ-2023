@@ -2,10 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class DashSetting
+{
+    public float dashTime = 0.5f;
+    public float dashSpeed = 2;
+    public float maxDashSpeed = 4f;
+}
+
 public class PlayerBehavior : MonoBehaviour
 {
     public Animator Animator;
+    public PlayerController PlayerController;
     public float BigSlashRechargeTime = 8.0f;
+    public float RewardOnHitPercent = 0.05f;
     public float NormalVectorAttackSpawnMultiplicative = 2.0f;
     public PlayerSlash Slash;
     public PlayerBigSlash BigSlash;
@@ -14,7 +24,9 @@ public class PlayerBehavior : MonoBehaviour
     private float _swirlRemainingTime = 0f;
     private float _currentBigSlashTime = 0;
     private bool _canBigSlash = false;
-
+    public bool IsDashing { get; private set; } = false;
+    public DashSetting DashSetting;
+    public GameObject DashPelvis;
     void Update()
     {
         if (GameManager.Instance.IsGameStarted == true && GameManager.Instance.IsGamePaused != true && GameManager.Instance.IsPlayerInControl == true)
@@ -29,6 +41,12 @@ public class PlayerBehavior : MonoBehaviour
                 _canBigSlash = false;
                 _currentBigSlashTime = 0;
             }
+            if (Input.GetKeyDown("space"))
+            {
+                Vector2 movement = PlayerController.GetMovement();
+                if (movement != Vector2.zero)
+                    Dash(movement);
+            }
             if (_canBigSlash == false)
             {
                 GameUIManager.Instance.UpdateRechargeUI(_currentBigSlashTime, BigSlashRechargeTime);
@@ -36,6 +54,7 @@ public class PlayerBehavior : MonoBehaviour
                 {
                     _currentBigSlashTime = BigSlashRechargeTime;
                     _canBigSlash = true;
+                    GameUIManager.Instance.PowerReadyAnimator.Play("PowerReady");
                 }
                 else
                 {
@@ -50,8 +69,32 @@ public class PlayerBehavior : MonoBehaviour
             {
                 FollowingSwirl.gameObject.SetActive(false);
             }
-            
+
         }
+    }
+
+    void Dash(Vector2 movement)
+    {
+        IsDashing = true;
+        Animator.Play("AnimDash");
+        float AngleRad = Mathf.Atan2(movement.y, movement.x);
+        float AngleDeg = (180 / Mathf.PI) * AngleRad;
+        DashPelvis.transform.rotation = Quaternion.Euler(0, 0, AngleDeg);
+        DashPelvis.SetActive(true);
+        StartCoroutine(PlayerController.MakeDash(movement, DashSetting));
+    }
+
+    public void FinishDash()
+    {
+        Animator.Play("AnimIdle");
+        IsDashing = false;
+        DashPelvis.SetActive(false);
+    }
+
+    public void AddSpecialReward()
+    {
+        if (_canBigSlash == false)
+            _currentBigSlashTime += BigSlashRechargeTime * RewardOnHitPercent;
     }
 
     void PrepareAttack(bool isLeftClick)
@@ -70,14 +113,13 @@ public class PlayerBehavior : MonoBehaviour
             AttackBig(targetPos, AngleDeg);
         }
     }
-
     void Attack(Vector3 targetPos, float angleDeg)
     {
         Animator.Play("Attack");
         Vector3 attackOriginatingFrom = new Vector3(transform.position.x, transform.position.y + AttackOrigin.position.y);
         PlayerSlash createdProj = Instantiate(Slash, attackOriginatingFrom + targetPos.normalized * NormalVectorAttackSpawnMultiplicative, Quaternion.identity, null);
         createdProj.transform.rotation = Quaternion.Euler(0, 0, angleDeg);
-        createdProj.Setup(this.gameObject);
+        createdProj.Setup(this.gameObject, this);
     }
 
     void AttackBig(Vector3 targetPos, float angleDeg)

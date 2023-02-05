@@ -41,19 +41,21 @@ public class GameManager : MonoBehaviour
     
     public float DifficultyScaling = 0.1f;
     public float TimeForScalingInSecond = 10f;
-    private float _currentScaling = 0f;
+    private float _currentScaling = 1f;
     private float _nextScaling = 0f;
     private float _elaspedTime;
     private bool _pseudoWin = false;
     private int _killScore = 0;
     public void Update()
     {
-        if (IsGameStarted == true && IsGamePaused != true && IsGameOver != false)
+        if (IsGameStarted == true && IsGamePaused == false && IsGameOver == false)
         {
             _elaspedTime += Time.deltaTime;
+            GameUIManager.Instance.UpdateElapsedTime(_elaspedTime, TimeRequiredToWin);
             _nextScaling += Time.deltaTime;
             if (_pseudoWin == false && _elaspedTime > TimeRequiredToWin)
             {
+                GameUIManager.Instance.UpdateTimeUI();
                 //Popup de hardmode ?
                 _pseudoWin = true;
             }
@@ -65,15 +67,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Start()
+    {
+        StartGame();
+    }
+
     public void StartGame()
     {
         IsGameStarted = true;
         SetKillScore(0);
+        _currentScaling = 1;
     }
 
     public void FinishGame()
     {
         IsGameOver = true;
+        IsPlayerInControl = false;
         if (_pseudoWin == true)
         {
             //win scenarion
@@ -82,16 +91,20 @@ public class GameManager : MonoBehaviour
         {
             //lost scenario
         }
+        GameUIManager.Instance.GameDone();
     }
 
     public void SetKillScore(int value)
     {
         _killScore = value;
+        GameUIManager.Instance.UpdateKillText(_killScore, false);
     }
 
     public void AddScore(int scoreToAdd)
     {
         _killScore += scoreToAdd;
+        GameUIManager.Instance.UpdateKillText(_killScore, true);
+
     }
 
     public float GetCurrentScaling()

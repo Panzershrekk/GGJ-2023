@@ -46,7 +46,6 @@ public class PlayerController : MonoBehaviour
         if (_movement.x > 0)
         {
             SpriteRenderer.flipX = false;
-            //transform.localScale = new Vector3(-1, 1, 1);
         }
         else if (_movement.x < 0)
         {

@@ -5,12 +5,16 @@ using UnityEngine;
 public class PlayerBehavior : MonoBehaviour
 {
     public Animator Animator;
+    public float BigSlashRechargeTime = 8.0f;
     public float NormalVectorAttackSpawnMultiplicative = 2.0f;
     public PlayerSlash Slash;
     public PlayerBigSlash BigSlash;
     public PlayerFollower FollowingSwirl;
-
+    public Transform AttackOrigin;
     private float _swirlRemainingTime = 0f;
+    private float _currentBigSlashTime = 0;
+    private bool _canBigSlash = false;
+
     void Update()
     {
         if (GameManager.Instance.IsGameStarted == true && GameManager.Instance.IsGamePaused != true && GameManager.Instance.IsPlayerInControl == true)
@@ -19,9 +23,24 @@ public class PlayerBehavior : MonoBehaviour
             {
                 PrepareAttack(true);
             }
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && _canBigSlash == true)
             {
                 PrepareAttack(false);
+                _canBigSlash = false;
+                _currentBigSlashTime = 0;
+            }
+            if (_canBigSlash == false)
+            {
+                GameUIManager.Instance.UpdateRechargeUI(_currentBigSlashTime, BigSlashRechargeTime);
+                if (_currentBigSlashTime >= BigSlashRechargeTime)
+                {
+                    _currentBigSlashTime = BigSlashRechargeTime;
+                    _canBigSlash = true;
+                }
+                else
+                {
+                    _currentBigSlashTime += Time.deltaTime;
+                }
             }
         }
         if (FollowingSwirl.gameObject.activeInHierarchy == true)
@@ -31,16 +50,15 @@ public class PlayerBehavior : MonoBehaviour
             {
                 FollowingSwirl.gameObject.SetActive(false);
             }
+            
         }
     }
 
     void PrepareAttack(bool isLeftClick)
     {
-        Vector3 targetPos = Input.mousePosition;
-        targetPos.z = Camera.main.nearClipPlane;
-        targetPos = Camera.main.ScreenToWorldPoint(targetPos);
+        Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         targetPos = (targetPos - transform.position).normalized;
-        targetPos.z = this.transform.position.z;
+        targetPos.z = 0;
         float AngleRad = Mathf.Atan2(targetPos.y, targetPos.x);
         float AngleDeg = (180 / Mathf.PI) * AngleRad;
         if (isLeftClick == true)
@@ -56,7 +74,8 @@ public class PlayerBehavior : MonoBehaviour
     void Attack(Vector3 targetPos, float angleDeg)
     {
         Animator.Play("Attack");
-        PlayerSlash createdProj = Instantiate(Slash, transform.position + targetPos * NormalVectorAttackSpawnMultiplicative, Quaternion.identity, null);
+        Vector3 attackOriginatingFrom = new Vector3(transform.position.x, transform.position.y + AttackOrigin.position.y);
+        PlayerSlash createdProj = Instantiate(Slash, attackOriginatingFrom + targetPos.normalized * NormalVectorAttackSpawnMultiplicative, Quaternion.identity, null);
         createdProj.transform.rotation = Quaternion.Euler(0, 0, angleDeg);
         createdProj.Setup(this.gameObject);
     }
@@ -64,7 +83,8 @@ public class PlayerBehavior : MonoBehaviour
     void AttackBig(Vector3 targetPos, float angleDeg)
     {
         Animator.Play("Attack");
-        PlayerBigSlash createdProj = Instantiate(BigSlash, transform.position + targetPos * NormalVectorAttackSpawnMultiplicative, Quaternion.identity, null);
+        Vector3 attackOriginatingFrom = new Vector3(transform.position.x, transform.position.y + AttackOrigin.position.y);
+        PlayerBigSlash createdProj = Instantiate(BigSlash, attackOriginatingFrom + targetPos.normalized * NormalVectorAttackSpawnMultiplicative, Quaternion.identity, null);
         createdProj.transform.rotation = Quaternion.Euler(0, 0, angleDeg);
         createdProj.Setup(this.gameObject, targetPos);
     }

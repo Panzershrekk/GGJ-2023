@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class GameUIManager : MonoBehaviour
     }
     #endregion
     public TMP_Text ScoreText;
+    public Image FillRecharge;
+    public Image FillLife;
+    public Image FillTime;
 
     public void UpdateKillText(int value, bool animated)
     {
@@ -40,6 +44,13 @@ public class GameUIManager : MonoBehaviour
 
     public void UpdateTreeUI(float life, float maxLife)
     {
-        
+        float normalizedRemainingLife = life / maxLife;
+        FillLife.fillAmount = normalizedRemainingLife;
+    }
+
+    public void UpdateRechargeUI(float currentRecharge, float maxTime)
+    {
+        float normalizedRemainingLife = currentRecharge / maxTime;
+        FillRecharge.fillAmount = normalizedRemainingLife;
     }
 }

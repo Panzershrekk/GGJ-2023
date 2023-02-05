@@ -16,9 +16,9 @@ public class SpriteSetter : MonoBehaviour {
     }
 
     void SetPosition () {
-        Vector3 newPosition = transform.position;
+        /*Vector3 newPosition = transform.position;
         newPosition.z = transform.position.y;
-        transform.position = newPosition;
+        transform.position = newPosition;*/
         SpriteRenderer.sortingOrder = -(int)transform.position.y + BaseLayer;
     }
 

@@ -109,11 +109,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 683
         width: 870
         height: 683
       alignment: 9
-      pivot: {x: 0.5, y: 0.2330195}
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -130,11 +130,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 870
-        y: 0
+        y: 683
         width: 870
         height: 683
       alignment: 9
-      pivot: {x: 0.5, y: 0.2330195}
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -150,12 +150,12 @@ TextureImporter:
       name: Character_Animation_Slash_spritesheet_2
       rect:
         serializedVersion: 2
-        x: 1740
+        x: 0
         y: 0
         width: 870
         height: 683
       alignment: 9
-      pivot: {x: 0.5, y: 0.2330195}
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -171,12 +171,12 @@ TextureImporter:
       name: Character_Animation_Slash_spritesheet_3
       rect:
         serializedVersion: 2
-        x: 2610
+        x: 870
         y: 0
         width: 870
         height: 683
       alignment: 9
-      pivot: {x: 0.5, y: 0.2330195}
+      pivot: {x: 0.5, y: 0.2}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

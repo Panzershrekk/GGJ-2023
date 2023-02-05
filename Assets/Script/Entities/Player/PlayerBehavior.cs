@@ -41,7 +41,7 @@ public class PlayerBehavior : MonoBehaviour
                 _canBigSlash = false;
                 _currentBigSlashTime = 0;
             }
-            if (Input.GetKeyDown("space"))
+            if (Input.GetKeyDown("space") || Input.GetKeyDown(KeyCode.RightControl))
             {
                 Vector2 movement = PlayerController.GetMovement();
                 if (movement != Vector2.zero)
@@ -75,6 +75,7 @@ public class PlayerBehavior : MonoBehaviour
 
     void Dash(Vector2 movement)
     {
+        AudioManager.Instance.Play("Dash");
         IsDashing = true;
         Animator.Play("AnimDash");
         float AngleRad = Mathf.Atan2(movement.y, movement.x);
@@ -115,6 +116,7 @@ public class PlayerBehavior : MonoBehaviour
     }
     void Attack(Vector3 targetPos, float angleDeg)
     {
+        AudioManager.Instance.Play("Slash");
         Animator.Play("Attack");
         Vector3 attackOriginatingFrom = new Vector3(transform.position.x, transform.position.y + AttackOrigin.position.y);
         PlayerSlash createdProj = Instantiate(Slash, attackOriginatingFrom + targetPos.normalized * NormalVectorAttackSpawnMultiplicative, Quaternion.identity, null);
@@ -124,6 +126,7 @@ public class PlayerBehavior : MonoBehaviour
 
     void AttackBig(Vector3 targetPos, float angleDeg)
     {
+        AudioManager.Instance.Play("BigSlash");
         Animator.Play("Attack");
         Vector3 attackOriginatingFrom = new Vector3(transform.position.x, transform.position.y + AttackOrigin.position.y);
         PlayerBigSlash createdProj = Instantiate(BigSlash, attackOriginatingFrom + targetPos.normalized * NormalVectorAttackSpawnMultiplicative, Quaternion.identity, null);
@@ -134,6 +137,7 @@ public class PlayerBehavior : MonoBehaviour
     void ActivateSwirl(float time)
     {
         _swirlRemainingTime = time;
+        AudioManager.Instance.Play("Bonus");
         FollowingSwirl.gameObject.SetActive(true);
     }
 

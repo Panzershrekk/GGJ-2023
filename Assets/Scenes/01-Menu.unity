@@ -401,9 +401,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 836082310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7406559d1c5c18e42b0fd42a10b2593f, type: 3}
+  m_Script: {fileID: 11500000, guid: 73624826ac5065a40913d0821b5eb86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Sounds:
+  - Name: Intro
+    Clip: {fileID: 8300000, guid: 6ca76f6aee5359b48bd77484979fa4ae, type: 3}
+    Volume: 0.07
+    Pitch: 1
+    Loop: 1
+    PlayOnStart: 1
+    Source: {fileID: 0}
+  - Name: Click
+    Clip: {fileID: 8300000, guid: 1457bfd5c2b42dd48bccdb3d7e9a3102, type: 3}
+    Volume: 0.167
+    Pitch: 1
+    Loop: 0
+    PlayOnStart: 0
+    Source: {fileID: 0}
 --- !u!4 &836082312
 Transform:
   m_ObjectHideFlags: 0
@@ -512,6 +527,18 @@ MonoBehaviour:
           m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 836082311}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &900027281
@@ -1099,7 +1126,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2064806368}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 836082311}
+        m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2064806368
 MonoBehaviour:
   m_ObjectHideFlags: 0

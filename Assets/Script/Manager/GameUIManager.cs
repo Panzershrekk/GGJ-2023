@@ -42,7 +42,11 @@ public class GameUIManager : MonoBehaviour
     public GameObject ShinePanel;
     public Animator LoadingAnimator;
     public Animator EndResultAnimator;
+    public TMP_Text EndScoreText;
+    public TMP_Text EndTimeText;
 
+    public GameObject VictoryImage;
+    public GameObject DefeatImage;
     public void UpdateKillText(int value, bool animated)
     {
         ScoreText.text = value.ToString();
@@ -78,9 +82,13 @@ public class GameUIManager : MonoBehaviour
         Shine.Play("Shiny");
     }
 
-    public void GameDone()
+    public void GameDone(bool won)
     {
         LoadingAnimator.Play("FadeOutStay");
+        EndTimeText.text = TimeText.text;
+        EndScoreText.text = ScoreText.text;
+        VictoryImage.SetActive(won);
+        DefeatImage.SetActive(!won);
         StartCoroutine(DisplayFinalUI());
     }
 
@@ -93,7 +101,7 @@ public class GameUIManager : MonoBehaviour
     public IEnumerator ChangeScene(int scendIndex)
     {
         EndResultAnimator.Play("Hide");
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         SceneManager.LoadScene(scendIndex);
     }
 

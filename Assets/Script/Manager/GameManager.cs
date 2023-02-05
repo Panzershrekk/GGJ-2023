@@ -83,15 +83,7 @@ public class GameManager : MonoBehaviour
     {
         IsGameOver = true;
         IsPlayerInControl = false;
-        if (_pseudoWin == true)
-        {
-            //win scenarion
-        }
-        else
-        {
-            //lost scenario
-        }
-        GameUIManager.Instance.GameDone();
+        GameUIManager.Instance.GameDone(_pseudoWin);
     }
 
     public void SetKillScore(int value)
